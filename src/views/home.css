@@ -1,0 +1,17 @@
+.home-container {
+  width: 100%;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  flex-direction: column;
+  background-size: cover;
+  background-image: url("/jzl2fuz8-1500w.jpg");
+  background-position: center;
+}
+ 
+@media(max-width: 479px) {
+  .home-container {
+    background-size: auto;
+    background-repeat: repeat-y;
+  }
+}
