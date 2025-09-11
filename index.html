@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
     <title>Povedeno</title>
@@ -6,10 +6,13 @@
         #game-window {
             width: 1056px;
             height: 660px;
+            margin: 0 auto;
+            display: block;
         }
         #game-window iframe {
             width: 100%;
             height: 100%;
+            border: none;
         }
     </style>
 </head>
@@ -17,12 +20,32 @@
     <h1>Welcome to My Game Website!</h1>
     
     <div id="game-window">
-        <iframe src="https://maslodavid49-ui.github.io/Test/" width="512" height="288"></iframe>
+        <iframe id="game-frame" src="https://maslodavid49-ui.github.io/Test/" width="512" height="288"></iframe>
     </div>
     
     <div id="text-section">
         <h2>About the Game:</h2>
         <p>This is a fun and interactive game that you can play online. Enjoy and have fun!</p>
     </div>
+
+    <script>
+      // Detect mobile devices
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const gameWindow = document.getElementById("game-window");
+
+      if (isMobile) {
+        // 📱 Mobile resolution: use most of screen width
+        const mobileWidth = window.innerWidth * 0.95;  // 95% of screen width
+        const aspectRatio = 16 / 10; // match your desktop ratio (1056x660 ≈ 1.6)
+        const mobileHeight = mobileWidth / aspectRatio;
+
+        gameWindow.style.width = mobileWidth + "px";
+        gameWindow.style.height = mobileHeight + "px";
+      } else {
+        // 💻 Desktop resolution: keep fixed size
+        gameWindow.style.width = "1056px";
+        gameWindow.style.height = "660px";
+      }
+    </script>
 </body>
 </html>
