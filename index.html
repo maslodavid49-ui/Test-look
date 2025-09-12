@@ -12,12 +12,15 @@
         #game-window {
             margin: 0 auto;
             display: block;
+            /* Optional: add a min size */
+            min-width: 320px;
+            min-height: 200px;
         }
         #game-window iframe {
-            width: 100%;
-            height: 100%;
             border: none;
             border-radius: 10px;
+            /* We'll set width/height dynamically via JS */
+            display: block;
         }
         #fullscreen-btn {
             margin-top: 10px;
@@ -70,26 +73,38 @@
           const screenHeight = window.innerHeight;
           const aspectRatio = 16 / 10;
 
+          let width, height;
+
           if (isPortrait) {
-            const width = screenWidth * 0.95;
-            const height = width / aspectRatio;
-            gameWindow.style.width = width + "px";
-            gameWindow.style.height = height + "px";
+            width = Math.floor(screenWidth * 0.95);
+            height = Math.floor(width / aspectRatio);
           } else {
-            const height = screenHeight * 0.85;
-            const width = height * aspectRatio;
-            gameWindow.style.width = width + "px";
-            gameWindow.style.height = height + "px";
+            height = Math.floor(screenHeight * 0.85);
+            width = Math.floor(height * aspectRatio);
           }
 
-          // Show fullscreen button on mobile
+          // Set container size
+          gameWindow.style.width = width + "px";
+          gameWindow.style.height = height + "px";
+
+          // Set iframe size explicitly to avoid 100% issues on iPad
+          gameFrame.style.width = width + "px";
+          gameFrame.style.height = height + "px";
+
           fullscreenBtn.style.display = "inline-block";
 
         } else {
-          // Desktop resolution
-          gameWindow.style.width = "1056px";
-          gameWindow.style.height = "660px";
-          fullscreenBtn.style.display = "none"; // hide on desktop
+          // Desktop fixed size
+          const width = 1056;
+          const height = 660;
+
+          gameWindow.style.width = width + "px";
+          gameWindow.style.height = height + "px";
+
+          gameFrame.style.width = width + "px";
+          gameFrame.style.height = height + "px";
+
+          fullscreenBtn.style.display = "none";
         }
       }
 
@@ -100,7 +115,7 @@
       // Fullscreen functionality
       fullscreenBtn.addEventListener("click", () => {
         if (isiOS) {
-          // iPhone/iPad: open game in new tab
+          // iPhone/iPad: open game in new tab instead of fullscreen
           window.open(gameFrame.src, "_blank");
         } else if (gameFrame.requestFullscreen) {
           gameFrame.requestFullscreen();
